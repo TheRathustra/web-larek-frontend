@@ -79,7 +79,7 @@ export class AppState extends Model<IAppState> {
   }
 
   get total(): number {
-		return this.basket.total;
+		return this._basket.total;
 	}
 
   addToBasket(product: IProduct) {
