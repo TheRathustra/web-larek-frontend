@@ -66,7 +66,6 @@ export class Order extends Model<IOrder> {
     }
   }
 //#endregion  
-
 }
 
 export function createOrderDTO(order: IOrder, basket: IBasket): TOderDTO {
@@ -76,20 +75,20 @@ export function createOrderDTO(order: IOrder, basket: IBasket): TOderDTO {
 }
 
 class OrderDTO implements TOderDTO {
-  total: number;
   address: string;
   payment: string;
   email: string;
   phone: string;
   items: string[];
+  total: number;
 
-  constructor(order: IOrder) {
-    this.email    = order.email;
+  constructor(order: Partial<IOrder>) {
     this.address  = order.address;
-    this.total    = order.total;
     this.payment  = order.payment.toString();
+    this.email    = order.email;
     this.phone    = order.phone;
     this.items    = [];
+    this.total    = order.total;
   }
 
 }

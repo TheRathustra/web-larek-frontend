@@ -1,6 +1,7 @@
 import { Component } from '../base/Component';
 import { IProduct } from '../../types';
 import { ensureElement } from '../../utils/utils';
+import { categoryColorMap } from './ViewSettings';
 
 interface IActions {
 	onClick: (event: MouseEvent) => void;
@@ -69,6 +70,9 @@ export class CardView extends Component<IProductCard> {
 
 	set category(category: string) {
 		this.setText(this._category, category);
+		if (categoryColorMap.get(category)) {
+			this._category.style.backgroundColor = categoryColorMap.get(category);
+		}
 	}
 
 	set index(index: string) {
@@ -102,3 +106,4 @@ export class CardView extends Component<IProductCard> {
 	}
 
 }
+

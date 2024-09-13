@@ -73,7 +73,7 @@ events.on(eventType.productSelect.toString(), (item: IProduct) => {
 								{onClick: () => {
 									events.emit(eventType.productToBasket.toString(), item)
 									card.buttonText = appState.isInBasket(item) ? 'Удалить из корзины' : 'Добавить в корзину';}
-								});
+								});								
 	modal.render({
 		content: card.render({
 			id: item.id,
