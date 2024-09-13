@@ -1,11 +1,11 @@
-import { IOrder, IOrderStatus, IProduct } from '../types';
+import { IOrderStatus, IProduct, TOderDTO } from '../types';
 import {
 	API_URL,
 	CDN_URL,
-	PRODUCT_ENDPOINT,
 	PRODUCT_LIST_ENDPOINT,
 	ORDER_ENDPOINT,
 } from '../utils/constants';
+
 import { Api, ApiListResponse } from './base/api';
 
 export class AppAPI extends Api {
@@ -25,13 +25,10 @@ export class AppAPI extends Api {
 		}));
 	}
 
-	async getProduct(id: number): Promise<IProduct> {
-		const response = await this.get(PRODUCT_ENDPOINT(id.toString()));
-		return response as IProduct;
-	}
-
-	async placeOrder(order: IOrder): Promise<IOrderStatus> {
+	async createOrder(order: TOderDTO): Promise<IOrderStatus> {
+		console.log(order);
 		const response = await this.post(ORDER_ENDPOINT, order);
 		return response as IOrderStatus;
 	}
+ 
 }

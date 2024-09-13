@@ -2,34 +2,35 @@ import { Component } from '../base/Component';
 import { IProduct } from '../../types';
 import { ensureElement } from '../../utils/utils';
 
-interface ICardActions {
+interface IActions {
 	onClick: (event: MouseEvent) => void;
 }
 
 export interface IProductCard extends IProduct {
-	count?: number;
+	index?: number;
 	buttonText?: string;
 }
 
 export class CardView extends Component<IProductCard> {
-	protected _title: HTMLElement;
+	protected _index?: HTMLButtonElement;
 	protected _image?: HTMLImageElement;
+	protected _category: HTMLElement;
+	protected _title: HTMLElement;
 	protected _description?: HTMLElement;
 	protected _button?: HTMLButtonElement;
-	protected _index?: HTMLButtonElement;
-	protected _category: HTMLElement;
+	protected _buttonText: string;
 	protected _price: HTMLElement;
 
-	constructor(container: HTMLElement, actions?: ICardActions) {
+	constructor(container: HTMLElement, actions?: IActions) {
 		super(container);
 
-		this._title     = ensureElement<HTMLElement>(`.card__title`, container);
-		this._description = ensureElement<HTMLElement>(`.card__description`);
-		this._image     = ensureElement<HTMLImageElement>(`.card__image`);
-		this._index     = ensureElement<HTMLButtonElement>(`.basket__item-index`);
-		this._button    = ensureElement<HTMLButtonElement>(`.card__button`);
-		this._category  = ensureElement<HTMLElement>(`.card__category`);
-		this._price     = ensureElement<HTMLElement>(`.card__price`);
+		this._index 			= container.querySelector('.basket__item-index');
+		this._image 			= container.querySelector('.card__image');
+		this._category 		= container.querySelector('.card__category');
+		this._title 			= ensureElement<HTMLElement>('.card__title', container);
+		this._description = container.querySelector('.card__text');
+		this._button 			= container.querySelector('.card__button');
+		this._price 			= ensureElement<HTMLElement>('.card__price', container);
 
 		if (actions?.onClick) {
 			if (this._button) {
@@ -39,6 +40,8 @@ export class CardView extends Component<IProductCard> {
 			}
 		}
 	}
+
+	//#region Set_Get
 
 	set id(id: string) {
 		this.container.dataset.id = id;
@@ -75,7 +78,7 @@ export class CardView extends Component<IProductCard> {
 	set price(price: string) {
 		if (price) {
 			this.setText(this._price, `${price} синапсов`);
-            this.setDisabled(this._button, false);
+      this.setDisabled(this._button, false);
 		} else {
 			this.setText(this._price, `Бесценно`);
 			this.setDisabled(this._button, true);
@@ -86,7 +89,16 @@ export class CardView extends Component<IProductCard> {
 		return this._price.textContent || '';
 	}
 
+	//#endregion
+
 	set buttonText(buttonText: string) {
 		this.setText(this._button, buttonText);
 	}
+
+	set button(value: string) {
+		if (this._button) {
+			this._button.textContent = value;
+		}
+	}
+
 }

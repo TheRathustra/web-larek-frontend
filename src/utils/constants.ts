@@ -5,6 +5,5 @@ export const settings = {
 
 };
 
-export const PRODUCT_ENDPOINT = (id: string) => `/product/${id}`;
 export const PRODUCT_LIST_ENDPOINT = `/product/`;
 export const ORDER_ENDPOINT = `/order`; 
