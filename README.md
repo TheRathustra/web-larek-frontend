@@ -178,46 +178,38 @@ export type TOderDTO = Pick<IOrder, 'address' | 'payment' | 'email' | 'phone' | 
 Абстрактный класс представления. Наследуется всеми классами View. Предназначен для создания компонентов пользовательского интерфейса.
 
 Поля:
-```
-container: HTMLElement — корневой DOM-элемент
-```
+- `container: HTMLElement` — корневой DOM-элемент
 
 Методы:
-```
-toggleClass(element: HTMLElement, class: string) - переключение класса;
-setText(element: HTMLElement, value: string) — установление текстового содержимого;
-setDisabled(element: HTMLElement, state: boolean) — изменение статуса блокировки;
-setHidden(element: HTMLElement) — видимость элемента ложь;
-setVisible(element: HTMLElement) — видимость элемента истина;
-setImage(element: HTMLElement, src: string, alt?: string) — установить изображение с альтернативным текстом;
-render(data?: any) — рендер переданных элементов
-```
+- `toggleClass(element: HTMLElement, class: string)` - переключение класса;
+- `setText(element: HTMLElement, value: string)` — установление текстового содержимого;
+- `setDisabled(element: HTMLElement, state: boolean)` — изменение статуса блокировки;
+- `setHidden(element: HTMLElement)` — видимость элемента ложь;
+- `setVisible(element: HTMLElement)` — видимость элемента истина;
+- `setImage(element: HTMLElement, src: string, alt?: string)` — установить изображение с альтернативным текстом;
+- `render(data?: any)` — рендер переданных элементов
 
 #### Класс Form
 Класс для создания форм. Наследуется от `Component<T>`.
 Конструктор принимает начальное состояние и брокер событий `IEvents`.
 
 Поля:
-```
-submit: HTMLButtonElement - кнопка отправки
-errors: HTMLElement - ошибки формы
-```
+- `submit: HTMLButtonElement` - кнопка отправки
+- `errors: HTMLElement` - ошибки формы
 
-Методы
-```
-    protected onInputChange(field: keyof T, value: string) - обработчик событий ввода
-    set valid(value: boolean) - установка проверки на валидность
-    set errors(value: string) - установка ошибок
-    render(state: Partial<T> & IFormState) — рендер переданных элементов
-```
+Методы:
+- `onInputChange(field: keyof T, value: string)` - обработчик событий ввода
+- `set valid(value: boolean)` - установка проверки на валидность
+- `set errors(value: string)` - установка ошибок
+- `render(state: Partial<T> & IFormState)` — рендер переданных элементов
 
 #### Класс Modal
 Реализует модальное окно. Так же предоставляет методы `open` и `close` для управления отображением модального окна. Устанавливает слушатели на клавиатуру, для закрытия модального окна по Esc, на клик в оверлей и кнопку-крестик для закрытия попапа.  
-- constructor(selector: string, events: IEvents) Конструктор принимает селектор, по которому в разметке страницы будет идентифицировано модальное окно и экземпляр класса `EventEmitter` для возможности инициации событий.
+- `constructor(selector: string, events: IEvents)` Конструктор принимает селектор, по которому в разметке страницы будет идентифицировано модальное окно и экземпляр класса `EventEmitter` для возможности инициации событий.
 
-Поля класса
-- modal: HTMLElement - элемент модального окна
-- events: IEvents - брокер событий
+Поля класса:
+- `modal: HTMLElement` - элемент модального окна
+- `events: IEvents` - брокер событий
 
 ### Слой данных
 
@@ -230,128 +222,160 @@ errors: HTMLElement - ошибки формы
 Конструктор класса принимает начальное состояние приложения и брокер событий `IEvents`.
 
 Поля:
-```
-items: IProduct[] - хранит все продукты на странице.
-preview: string | null - указатель на текущий выбранный продукт
-basket: IBasket | null - хранит экземпляр корзины.
-order: IOrder | null - хранит экземпляр заказа.
-errors: string[] - список ошибок.
-events: IEvents - брокер событий.
-```
+- `items: IProduct[]` - хранит все продукты на странице.
+- `preview: string | null` - указатель на текущий выбранный продукт
+- `basket: IBasket | null` - хранит экземпляр корзины.
+- `order: IOrder | null` - хранит экземпляр заказа.
+- `errors: string[]` - список ошибок.
+- `events: IEvents` - брокер событий.
 
-Методы:
-```
-Методы для стандартных операций над списком продуктов.
+Методы для стандартных операций над списком продуктов:
+- `set items(items: IProduct[])`
+- `get items(): IProduct[]`
+- `getItem(id: string): IProduct`
+- `addItem(item: IProduct, payload?: Function | null): void`
+- `deleteItem(item: IProduct, payload: Function | null): void`
 
-set items(items: IProduct[])
-get items(): IProduct[]
-getItem(id: string): IProduct
-addItem(item: IProduct, payload?: Function | null): void
-deleteItem(item: IProduct, payload: Function | null): void
-```
+Методы для установки текущего продукта: 
+- `set preview(id: string)`
+- `get preview(): string`
 
-```
-Методы для установки текущего продукта. 
-
-set preview(id: string)
-get preview(): string
-```
-
-```
-Методы для работы с корзиной.
-
-set basket(basket: IBasket)
-get basket(): IBasket
+Методы для работы с корзиной:
+- `set basket(basket: IBasket)`
+- `get basket(): IBasket`
 
 Класс должен получать внутреннее состояние корзины из самого класса корзины.
-Поэтому в этих функциях вызываем методы корзины. 
+Поэтому в этих функциях вызываем методы корзины:
+- `isInBasket(product: IProduct): boolean`
+- `addToBasket(product: IProduct)`
+- `get total(): number `
+- `deleteFromBasket(product: IProduct)`
+- `clearBasket()`
 
-isInBasket(product: IProduct): boolean
-addToBasket(product: IProduct)
-get total(): number 
-deleteFromBasket(product: IProduct)
-clearBasket()
-```
+Методы для работы с заказом:
+- `set order(order: IOrder)`
+- `get order(): IOrder`
 
-```
-Методы для работы с заказом
-set order(order: IOrder)
-get order(): IOrder
+Метод для установки полей заказа по введенным пользователем данным:
+- `setOrderField<K extends keyof TOrderFields>(key: K, value: string)`
 
-Метод для установки полей заказа по введенным пользователем данным
-setOrderField<K extends keyof TOrderFields>(key: K, value: string)
+Т.к. формирование заказа состоит из нескольких заполняемых окон (адрес, способ доставки и контакты пользователя), то разделяем работу с ними:
+- `clearOrder()`
+- `resetOrder()`
+- `resetContact()`
+- `validateOrder()`
+- `validateContact()`
 
-Т.к. формирование заказа состоит из нескольких заполняемых окон (адрес, способ доставки и контакты пользователя), то разделяем работу с ними.
-clearOrder()
-resetOrder()
-resetContact()
-validateOrder()
-validateContact()
-```
-
-```
-Функции для работы с ошибками
-addError(error: string)
-clearErrors()
-set errors(errors: string[])
-get errors(): string[]
-```
+Функции для работы с ошибками:
+- `addError(error: string)`
+- `clearErrors()`
+- `set errors(errors: string[])`
+- `get errors(): string[]`
 
 #### Класс Basket
 Класс служит для работы с корзиной товаров.
 Конструктор класса принимает начальное состояние корзины и брокер событий `IEvents`.
 
 Поля:
-```
-items: IProduct[] - продукты, добавленные в корзину
-total: number - сумма продуктов в корзине
-events: IEvents - брокер событий.
-```
+- `items: IProduct[]` - продукты, добавленные в корзину
+- `total: number` - сумма продуктов в корзине
+- `events: IEvents` - брокер событий.
 
-Методы:
-```
-Методы для работы со списком продуктов
-containsItem(product: IProduct): boolean
-get items(): IProduct[] 
-set items(items: IProduct[]) 
-add(product: IProduct, payload?: Function | null): void
-delete(product: IProduct, payload?: Function | null): void
-clear(payload?: Function | null): void
-getItemsCount(): number
-```
+Методы для работы со списком продуктов:
+- `containsItem(product: IProduct): boolean`
+- `get items(): IProduct[] `
+- `set items(items: IProduct[])`
+- `add(product: IProduct, payload?: Function | null): void`
+- `delete(product: IProduct, payload?: Function | null): void`
+- `clear(payload?: Function | null): void`
+- `getItemsCount(): number`
 
-```
-Методы для работы с общей суммой товаров в корзине
-updateTotal()
-get total(): number
-```
+Методы для работы с общей суммой товаров в корзине:
+- `updateTotal()`
+- `get total(): number`
 
 #### Класс Order
 Класс служит для работы с формируемым заказом.
 Конструктор класса принимает начальное состояние заказа и брокер событий `IEvents`.
 
 Поля:
-```
-id: string - идентификатор заказа
-total: number - общая сумма заказа
-address: string - адресс доставки
-payment: PaymentMethod | string - способ оплаты
-email: string - электронная почта пользователя
-phone: string - телефон пользователя
-```
+- `id: string` - идентификатор заказа
+- `total: number` - общая сумма заказа
+- `address: string` - адресс доставки
+- `payment: PaymentMethod | string` - способ оплаты
+- `email: string` - электронная почта пользователя
+- `phone: string` - телефон пользователя
 
 Методы:
-```
-Сеттеры и геттеры
-
-createOrderDTO(order: IOrder, basket: IBasket): TOderDTO - метод преобразует экземпляр класса Order в экземпляр класса TOrderDTO, необходимый для отправки заказа по API. Класс TOderDTO содержит поля пользователя и оплаты, а также идентификаторы продуктов в заказе.
-```
+- Сеттеры и геттеры
+- `createOrderDTO(order: IOrder, basket: IBasket): TOderDTO` - метод преобразует экземпляр класса Order в экземпляр класса TOrderDTO, необходимый для отправки заказа по API. Класс TOderDTO содержит поля пользователя и оплаты, а также идентификаторы продуктов в заказе.
 
 ### Классы представления
 Все классы представления отвечают за отображение внутри контейнера (DOM-элемент) передаваемых в них данных.
 
 #### Класс Page
-Расширяет базовый класс `Component<T>` и реализует отображение главной страницы.
+Расширяет базовый класс `Component<T>` и представляет собой страницу в веб-приложении.
 В конструкторе класс принимает 2 аргумента:
-- container - 
-- actions - 
+- `container` - элемент HTML, в котором будет отображаться страница
+- `events` - объект, содержащий обработчики событий для страницы
+
+Поля:
+- `catalog: HTMLElement` - каталог товаров
+- `wrapper: HTMLElement` - сама страница
+- `basket: HTMLElement` - иконка корзины в шапке
+- `counter: HTMLElement` - счетчик товаров в корзине
+
+#### Класс CardView
+Расширяет базовый класс `Component<T>` и представляет карточку товара в пользовательском интерфейсе.
+
+В конструкторе принимает элемент HTML шаблона карточки и действие при нажатии на кнопку или саму карточку.
+
+Поля:
+- `index?: HTMLButtonElement` - идентификатор карточки
+- `image?: HTMLImageElement` - изображение товара
+- `category: HTMLElement` - категория
+- `title: HTMLElement` - заголовок
+- `description?: HTMLElement` - описание
+- `button?: HTMLButtonElement` - кнопка
+- `buttonText: string` - текст кнопки
+- `price: HTMLElement` - цена товара
+
+Методами являются сеттеры и геттеры для полей
+
+#### Класс BasketView
+Расширяет базовый класс `Component<T>` и представляет корзину в пользовательском интерфейсе.
+
+В конструкторе принимает элемент HTML шаблона корзины и объект, содержащий обработчики событий для корзины
+
+Поля:
+- `items: IProduct[]` - товары в корзине
+- `total: number` - итоговая цена товаров
+- `events: IEvents` - брокер событий
+
+#### Класс OrderView
+Расширяет базовый класс `Component<T>` и представляет заказ в пользовательском интерфейсе. Отвечает за отображение адреса доставки и способа оплаты.
+
+В конструкторе принимает элемент HTML шаблона заказа и объект, содержащий обработчики событий для заказа.
+
+Поля:
+- `payment: HTMLButtonElement[]` - кнопки переключения способа оплаты 
+- `address: HTMLInputElement` - поле адреса доставки
+
+#### Класс ContactView
+Расширяет базовый класс `Component<T>` и представляет заказ в пользовательском интерфейсе. Отвечает за отображение данных пользователя.
+
+В конструкторе принимает элемент HTML шаблона заказа и объект, содержащий обработчики событий для заказа.
+
+Поля:
+- `phone: HTMLInputElement` - телефон пользователя
+- `email: HTMLInputElement` - электронная почта пользователя
+
+#### Класс SuccessView
+Расширяет базовый класс `Component<T>` и представляет результат оформления заказа в пользовательском интерфейсе.
+
+- `title: HTMLElement` - заголовок
+- `description: HTMLElement` - описание результата оформления заказа
+- `closeButton: HTMLButtonElement` - кнопка закрытия
+
+#### Класс eventsType
+Содержит все возможные события приложения для брокера

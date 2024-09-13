@@ -5,7 +5,7 @@ import { AppState } from './components/model/AppState';
 import { EventEmitter } from './components/base/events';
 import { Page } from './components/view/Page';
 import { Modal } from './components/common/Modal';
-import { IOrder, IProduct, TOrderFields } from './types';
+import { IProduct, TOrderFields } from './types';
 import { CardView } from './components/view/CardView';
 import { Basket } from './components/model/Basket';
 import { BasketView } from './components/view/BasketView'
@@ -15,7 +15,6 @@ import { SuccessView } from './components/view/SuccessView';
 import './scss/styles.scss';
 
 //#region constants
-
 const api = new AppAPI();
 const events = new EventEmitter();
 
@@ -41,7 +40,6 @@ const page = new Page(document.body, events);
 const basketView 	 = new BasketView(cloneTemplate(basketTemplate), events);
 const orderView 	 = new OrderView(cloneTemplate(orderTemplate), events);
 const contactsView = new ContactView(cloneTemplate(contactsTemplate), events);
-
 //#endregion
 
 // Первоначальное заполнение продуктов
@@ -88,11 +86,9 @@ events.on(eventType.productSelect.toString(), (item: IProduct) => {
 		}),
 	});
 });
-
 //#endregion
 
 //#region basket
-
 events.on(eventType.basketChanged.toString(), () => {
 	page.counter = appState.basket.getItemsCount();
 
@@ -137,11 +133,9 @@ events.on(eventType.basketOpen.toString(), () => {
 			}),
 	});
 });
-
 //#endregion
 
 //#region order
-
 events.on(eventType.orderOpen.toString(), () => {
 	modal.render({
 		content: orderView.render({
@@ -216,11 +210,9 @@ events.on(eventType.contactsSubmit.toString(), () => {
 			console.log(error);
 		});
 });
-
 //#endregion
 
 //#region modal
-
 events.on(eventType.modalOpen.toString(), () => {
 	page.locked = true;
 });
@@ -228,5 +220,4 @@ events.on(eventType.modalOpen.toString(), () => {
 events.on(eventType.modalClose.toString(), () => {
 	page.locked = false;
 });
-
 //#endregion
